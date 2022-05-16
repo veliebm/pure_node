@@ -1,14 +1,28 @@
-const http = require("http");
+const https = require("https");
+const config = require("./config");
+const read = require("./read");
+const url = require("url");
 
-const hostname = "127.0.0.1";
-const port = 3000;
+const options = {
+  key: config.key,
+  cert: config.cert,
+};
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/plain");
-  res.end("Hello World");
+const server = https.createServer(options, (req, res) => {
+  const reqUrl = url.parse(req.url).pathname;
+  if (reqUrl == "/") {
+    res.write(read.html("index"));
+  } else if (reqUrl == "/contact") {
+    res.write(read.html("contact"));
+  } else {
+    res.write("Page doesn't exist.");
+    res.statusCode = 404;
+  }
+  res.end();
 });
 
+port = config.port;
+hostname = config.hostname;
 server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  console.log(`Server running at https://${hostname}:${port}/`);
 });
