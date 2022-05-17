@@ -12,8 +12,8 @@ const server = https.createServer(options, (req, res) => {
   const reqUrl = url.parse(req.url).pathname;
   if (reqUrl == "/") {
     res.write(read.html("index"));
-  } else if (reqUrl == "/contact") {
-    res.write(read.html("contact"));
+  } else if (reqUrl == "/about") {
+    res.write(read.html("about"));
   } else {
     res.write("Page doesn't exist.");
     res.statusCode = 404;
